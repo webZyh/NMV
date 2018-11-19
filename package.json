@@ -1,5 +1,5 @@
 {
-  "name": "vue project",
+  "name": "vueProject",
   "version": "1.0.0",
   "description": "node and vue project",
   "author": "webZyh <jt_zyh10000@163.com>",
@@ -11,9 +11,13 @@
   },
   "dependencies": {
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "axios": "^0.16.1",
+    "mockjs": "^1.0.1-beta3"
   },
   "devDependencies": {
+    "stylus": "^0.54.5",
+    "stylus-loader": "^2.1.1",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",

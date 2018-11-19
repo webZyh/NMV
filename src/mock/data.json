@@ -1,0 +1,23 @@
+{
+  "code":0,
+  "data":[
+    {
+      "productId":"10001",
+      "name":"蓝牙音箱",
+      "price":99,
+      "imgPath":"1.jpg"
+    },
+    {
+      "productId":"10002",
+      "name":"蓝牙耳机",
+      "price":258,
+      "imgPath":"2.jpg"
+    },
+    {
+      "productId":"10003",
+      "name":"头戴式耳机",
+      "price":899,
+      "imgPath":"3.jpg"
+    }
+  ]
+}

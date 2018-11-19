@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import './src/mock/mockServer'    //加载mockServer即可
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
