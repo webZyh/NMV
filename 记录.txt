@@ -1,0 +1,85 @@
+-----------------------------------------------------
+axios
+----------
+axios.get('接口地址',{
+	params:{
+		传参
+	},
+	headers:{
+		携带请求头信息
+		token:'aaa'
+	}
+}).then(res=>{
+	成功
+}).catch((err)=>{
+	失败
+})
+
+axios.post('地址',{参数},{headers:{token:'tom'}}).then(res=>{
+	
+}).catch(err=>{
+	
+})
+
+axios({
+	url:'',
+	method:'',
+	data:{
+		post传参
+	},
+	params:{
+		get传参
+	},
+	headers:{
+
+	}
+}).then(res=>{
+	
+})
+
+拦截
+axios.interceptors.requset.use(function(config){
+	请求的拦截，请求前执行  	
+	例如loading的处理
+	return config
+})
+
+axios.interceptors.response.use(function(response){
+	相应的拦截
+	return response
+})
+-----------------------------------------------------
+ES6
+----------
+Rest参数		(动态参数)
+function sum(...m){
+	let total = 0;
+	for(var i of m){	//对m对象遍历
+		total+=i;
+	}
+}
+----------
+let sum = (...m)=>{
+	let total = 0;
+	for(var i of m){	//对m对象遍历
+		total+=i;
+	}
+}
+
+----------
+函数的扩展	...
+运算符
+console.log(...[4,8])
+[..arr1,..arr2]	合并两个数组concat
+-----
+解构
+字符串
+let [a,b,c] = "ES6"	=>	a=E,b=S,c=6
+
+let i = [...'es6']	=>  i=['e','s','6']
+
+----------
+Promise同时请求多个接口
+Promise.all([请求接口函数1，请求接口函数2]).then(([res1,res2])=>{
+	
+})	
