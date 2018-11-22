@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <Header />
+    <Header/>
     <Nav>
       <span slot="goods">Goods</span>
     </Nav>
@@ -9,7 +9,11 @@
         <div class="filter-nav">
           <span class="sortby">Sort by:</span>
           <a href="javascript:void(0)" class="default cur">Default</a>
-          <a href="javascript:void(0)" class="price">Price <svg class="icon icon-arrow-short"><use xlink:href="#icon-arrow-short"></use></svg></a>
+          <a href="javascript:void(0)" class="price" @click.prevent.stop="sortPrice()">Price
+            <svg class="icon icon-arrow-short">
+              <use xlink:href="#icon-arrow-short"></use>
+            </svg>
+          </a>
           <a href="javascript:void(0)" class="filterby stopPop" @click="showFilterPop">Filter by</a>
         </div>
         <div class="accessory-result">
@@ -17,9 +21,11 @@
           <div class="filter stopPop" id="filter" :class="{'filterby-show': filterBy}">
             <dl class="filter-price">
               <dt>Price:</dt>
-              <dd><a href="javascript:void(0)" :class="{'cur':currentSelect=='all'}" @click="currentSelect='all'">All</a></dd>
-              <dd v-for="(price,index) in priceFilter"  @click="setCurrentPrice(index)">
-                <a href="javascript:void(0)"  :class="{'cur': currentSelect==index}">{{price.startPrice}}-{{price.endPrice}}</a>
+              <dd><a href="javascript:void(0)" :class="{'cur':currentSelect=='all'}"
+                     @click="currentSelect='all'">All</a></dd>
+              <dd v-for="(price,index) in priceFilter" @click="setCurrentPrice(index)">
+                <a href="javascript:void(0)"
+                   :class="{'cur': currentSelect==index}">{{price.startPrice}}-{{price.endPrice}}</a>
               </dd>
             </dl>
           </div>
@@ -30,24 +36,28 @@
               <ul>
                 <li v-for="item in goodsList">
                   <div class="pic">
-                    <a href="#"><img v-lazy="`../static/img/${item.imgPath}`"></a>
+                    <a href="#"><img v-lazy="`../static/img/${item.productImage}`"></a>
                   </div>
                   <div class="main">
-                    <div class="name">{{item.name}}</div>
-                    <div class="price">{{item.price}}</div>
+                    <div class="name">{{item.productName}}</div>
+                    <div class="price">{{item.salePrice}}</div>
                     <div class="btn-area">
                       <a href="javascript:;" class="btn btn--m">加入购物车</a>
                     </div>
                   </div>
                 </li>
               </ul>
+              <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="30">
+                <img src="../../../static/loading/loading-spinning-bubbles.svg" alt="" v-show="loading">
+                <div v-if="noData" style="font-size: 18px;">哥，这回真的没有了！</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="md-overlay" v-show="overlayShow" @click="hideOverlay"></div>
-    <Footer />  
+    <Footer/>
   </div>
 </template>
 
@@ -60,11 +70,12 @@
   import Nav from '../../components/Nav/Nav'
 
   import axios from 'axios'
+
   export default {
-    data(){
+    data() {
       return {
-        goodsList:[],
-        priceFilter:[
+        goodsList: [],
+        priceFilter: [
           {
             startPrice: 0,
             endPrice: 100
@@ -83,39 +94,84 @@
           },
         ],
         currentSelect: 'all',  //当前选中的
-        filterBy:false,
-        overlayShow:false,
+        filterBy: false,
+        overlayShow: false,
+        sortFlag: true,    //为true时，sort=1,升序排序
+        page: 1,
+        pageSize: 8,
+        busy: true,    //禁止加载
+        loading: false,   //loading 不显示
+        priceLevel: 'all',    //价格等级区间
+        noData: false,
       }
     },
-    mounted(){
+    mounted() {
       this.getGoodsList();
     },
-    methods:{
-      getGoodsList(){
-        axios.get('/getGoodsList').then((res)=>{
+    methods: {
+      getGoodsList(flag) {
+        let param = {
+          page: this.page,
+          pageSize: this.pageSize,
+          sort: this.sortFlag ? 1 : -1,
+          priceLevel: this.priceLevel,
+        };
+        axios.get('api/goods', {
+          params: param
+        }).then((res) => {
+          this.loading = false;
           let result = res.data;
-          if(result.code ===0){
-            this.goodsList = result.data
+          console.log(result);
+          if (result.code === 0) {
+            if (flag) { //flag为true时，表示下拉加载
+              this.goodsList = this.goodsList.concat(result.data.list);
+              if (result.data.count <= this.pageSize) {
+                this.busy = true;
+                this.noData = true;
+              } else {
+                this.busy = false;
+              }
+            } else {      //表示第一次加载
+              this.busy = false;
+              this.goodsList = result.data.list;
+            }
             console.log(this.goodsList)
           }
-          
+
         })
       },
-      showFilterPop(){
+      sortPrice() {      //升降排序
+        this.sortFlag = !this.sortFlag;
+        this.page = 1;
+        this.getGoodsList();
+      },
+      loadMore() {      //分页加载功能
+        this.loading = true;
+        this.busy = true;
+        setTimeout(() => {
+          this.page++;
+          this.getGoodsList(true);
+          this.busy = false;
+        }, 1000);
+      },
+      showFilterPop() {     //显示价格区间
         this.filterBy = true;
         this.overlayShow = true;
       },
-      hideOverlay(){
+      hideOverlay() {       //隐藏遮罩
         this.filterBy = false;
         this.overlayShow = false;
       },
-      setCurrentPrice(index){
-        this.currentSelect=index;
+      setCurrentPrice(index) {      //设置价格
+        this.currentSelect = index;
         this.hideOverlay();
-      }
-      
+        //价格过滤
+        this.priceLevel = index;
+        this.page = 1;
+        this.getGoodsList();
+      },
     },
-    components:{
+    components: {
       Header,
       Footer,
       Nav
@@ -124,5 +180,5 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/css" scoped>
-  
+
 </style>

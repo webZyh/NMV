@@ -8,7 +8,7 @@ const consolidate = require('consolidate');
 
 //开启服务器，监听端口
 const server = express();
-server.listen(8080);
+server.listen(3000);
 
 //cookie,session的处理
 server.use(cookieParser("jjfakjfafadsfa"));
