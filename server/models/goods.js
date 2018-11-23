@@ -5,6 +5,8 @@ let productSchema = new Schema({  //定义模型,对应数据库表中数据的�
   "productId":{type:String},
   "productName":String,
   "salePrice":Number,
-  "productImage":String
+  "productImage":String,
+  "productNum":Number,
+  "checked":Number
 });
 module.exports = mongoose.model("Good",productSchema,'goods');  //输出模型

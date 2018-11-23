@@ -12,13 +12,18 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       //配置跨域代理
-      '/api':{
+      '/goods':{
         target:'http://localhost:3000',
-        changeOrigin:true,
-        pathRewrite:{
-          '^/api': ''
-        }
-      }
+        changeOrigin:true
+      },
+      '/goods/*':{
+        target:'http://localhost:3000',
+        changeOrigin:true
+      },
+      '/user/*':{
+        target:'http://localhost:3000',
+        changeOrigin:true
+      },
     },
 
     // Various Dev Server settings
