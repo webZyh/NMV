@@ -2111,7 +2111,9 @@ html {
   visibility: hidden;
   z-index: 201;
 }
-
+.md-modal input{
+  border:none;
+}
 .md-modal.md-modal-m {
   width: 620px;
 }

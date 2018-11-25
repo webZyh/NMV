@@ -125,11 +125,12 @@
           if (result.code === 0) {
             if (flag) { //flag为true时，表示下拉加载
               this.goodsList = this.goodsList.concat(result.data.list);
-              if (result.data.count <= this.pageSize) {
+              if (result.data.count == 0) {
                 this.busy = true;
                 this.noData = true;
               } else {
                 this.busy = false;
+                this.noData = false;
               }
             } else {      //表示第一次加载
               this.busy = false;
@@ -146,6 +147,7 @@
         this.getGoodsList();
       },
       loadMore() {      //分页加载功能
+        this.noData = false;
         this.loading = true;
         this.busy = true;
         setTimeout(() => {
