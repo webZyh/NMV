@@ -16,6 +16,6 @@ const userSchema = new mongoose.Schema({
   ]
 });
 
-const model = mongoose.model('User',userSchema);    //创建一个model
+const model = mongoose.model('User',userSchema,'users');    //创建一个model
 
 module.exports =model;
