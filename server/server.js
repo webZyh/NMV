@@ -16,11 +16,11 @@ let keys = [];
 for (let i = 0; i < 10000; i++) {
   keys[i] = 'key_' + Math.random();
 }
-server.use(cookieSession({
+/*server.use(cookieSession({
   name: 'admin',
   keys: keys,
   maxAge: 20 * 60 * 1000
-}));
+}));*/
 
 //处理post数据请求
 //普通数据，请求的数据req.body中
@@ -41,7 +41,21 @@ server.set('view engine', 'html');
 
 //登录拦截
 server.use((req,res,next)=>{
-  next();
+  if(req.cookies.userId){
+    next();
+  }else{
+    //console.log(req.path);
+    //console.log(req.originalUrl);
+    if(req.originalUrl == 'user/login' || req.originalUrl == 'user/logout' || req.path == '/goods/list'){
+      next();
+    }else{
+      res.json({
+        code:1,
+        msg:'当前未登录',
+        data:''
+      })
+    }
+  }
 })
 
 //router

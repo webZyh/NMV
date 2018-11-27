@@ -116,7 +116,7 @@
           sort: this.sortFlag ? 1 : -1,
           priceLevel: this.priceLevel,
         };
-        axios.get('/goods', {
+        axios.get('/goods/list', {
           params: param
         }).then((res) => {
           this.loading = false;

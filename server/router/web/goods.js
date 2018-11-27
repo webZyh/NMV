@@ -20,7 +20,7 @@ module.exports = function () {
   let router = express.Router();
 
   //获取商品信息
-  router.get("/", (req, res) => {
+  router.get("/list", (req, res) => {
     //后台接口实现分页和排序功能
     let page = parseInt(req.query.page);
     let pageSize = parseInt(req.query.pageSize);

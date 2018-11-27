@@ -19,11 +19,16 @@ module.exports = function(){
         })
       }else{
         if (data){
+          //写入cookie
           res.cookie("userId", data.userId,{
             path:'/',
             maxAge:1000*60*60
           })
-          req.session['userId'] =  data.userId;
+          res.cookie("userName", data.userName,{
+            path:'/',
+            maxAge:1000*60*60
+          })
+          //req.session['userId'] =  data.userId;
           res.json({
             code:0,
             msg:'',
@@ -45,6 +50,22 @@ module.exports = function(){
       msg:'',
       data:''
     })
+  });
+  //检查登录状态
+  router.get('/checkLogin',(req,res)=>{
+    if(req.cookies.userId){
+      res.json({
+        code:0,
+        msg:'',
+        data:req.cookies.userName || ''
+      })
+    }else{
+      res.json({
+        code:1,
+        msg:'未登录',
+        data:''
+      })
+    }
   })
   return router;
 }
