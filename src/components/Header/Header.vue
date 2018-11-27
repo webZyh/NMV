@@ -78,10 +78,21 @@
         username:'',
         password:'',
         user:'',
-        userId:'',
       }
     },
+    mounted(){
+      this.checkLogin();
+    },
     methods:{
+      //检查登录状态
+      checkLogin(){
+        axios.get("user/checkLogin").then((res)=>{
+          let resp = res.data;
+          if(resp.code==0){
+            this.user = resp.data;
+          }
+        })
+      },
       //登录
       login(){
         let username = this.username;
@@ -101,8 +112,6 @@
             this.errorTip = false;
             this.loginShow = false;
             this.user = result.data.userName;
-            /*this.userId = session.getAttribute("userId");
-            console.log(this.userId);*/
           }else{
             this.errorTip = true;
           }
@@ -111,7 +120,7 @@
       //退出
       logout(){
         axios.post("/user/logout").then((res)=>{
-
+          this.user='';
         })
       }
     }
