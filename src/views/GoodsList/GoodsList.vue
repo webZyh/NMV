@@ -58,6 +58,26 @@
     </div>
     <div class="md-overlay" v-show="overlayShow" @click="hideOverlay"></div>
     <Footer/>
+    <Modal :mdShow="mdShow">
+      <p slot="message">
+        请先登录，否则无法加入购物车中！
+      </p>
+      <div slot="btnGroup">
+        <a class="btn btn--m">关闭</a>
+      </div>
+    </Modal>
+    <Modal :mdShow="mdShowCart">
+      <p slot="message">
+        <svg class="icon-status-ok">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-status-ok"></use>
+        </svg>
+        <span>加入购物车成功！</span>
+      </p>
+      <div slot="btnGroup">
+        <a class="btn btn--m">继续购物</a>
+        <router-link to="/cart">查看购物车</router-link>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -68,6 +88,7 @@
   import Header from '../../components/Header/Header'
   import Footer from '../../components/Footer/Footer'
   import Nav from '../../components/Nav/Nav'
+  import Modal from '../../components/Modal/Modal.vue'
 
   import axios from 'axios'
 
@@ -103,6 +124,8 @@
         loading: false,   //loading 不显示
         priceLevel: 'all',    //价格等级区间
         noData: false,
+        mdShow:false,     //未登录加入购物车提示框
+        mdShowCart: false,  //加入购物车成功提示框
       }
     },
     mounted() {
@@ -177,9 +200,9 @@
         axios.post('/goods/addCart',{productId: productId}).then((res) => {
           console.log(res.data);
           if (res.data.code == 0) {
-            alert("加入购物车成功！")
+            this.mdShowCart = true;
           } else {
-            alert("失败" + res.data.msg);
+            this.mdShow = true;
           }
         })
       }
@@ -187,7 +210,8 @@
     components: {
       Header,
       Footer,
-      Nav
+      Nav,
+      Modal
     }
   }
 </script>
