@@ -17,9 +17,9 @@ axios.get('接口地址',{
 })
 
 axios.post('地址',{参数},{headers:{token:'tom'}}).then(res=>{
-	
+
 }).catch(err=>{
-	
+
 })
 
 axios({
@@ -35,12 +35,12 @@ axios({
 
 	}
 }).then(res=>{
-	
+
 })
 
 拦截
 axios.interceptors.requset.use(function(config){
-	请求的拦截，请求前执行  	
+	请求的拦截，请求前执行
 	例如loading的处理
 	return config
 })
@@ -82,8 +82,8 @@ let i = [...'es6']	=>  i=['e','s','6']
 ----------
 Promise同时请求多个接口
 Promise.all([请求接口函数1，请求接口函数2]).then(([res1,res2])=>{
-	
-})	
+
+})
 
 -----------------------------------------------------
 
@@ -96,3 +96,14 @@ import('') 方法
 -----------------------------------------------------
 
 vue-infinite-scroll		vue滚动加载插件
+-----------------------------------------------------
+线上部署项目 nginx处理跨域
+
+开发模式：代理
+          jsonp   不能用于线上模式
+-----------------------------------------------------
+MongoDB 删除某个数组中的某条数据
+User.update({userId:userId},{$pull:{'cartList':{'productId':productId}}})
+userId：查询条件，要找的用户
+cartList:要操作的数组
+productId: 在cartList数组中删除productId这条数据
