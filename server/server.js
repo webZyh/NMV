@@ -45,8 +45,8 @@ server.use((req,res,next)=>{
     next();
   }else{
     //console.log(req.path);
-    //console.log(req.originalUrl);
-    if(req.originalUrl == 'user/login' || req.originalUrl == 'user/logout' || req.path == '/goods/list'){
+    console.log(req.originalUrl);
+    if(req.originalUrl == '/user/login' || req.originalUrl == '/user/logout' || req.path == '/goods/list'){
       next();
     }else{
       res.json({

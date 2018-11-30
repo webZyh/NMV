@@ -10,7 +10,7 @@
           <span class="sortby">Sort by:</span>
           <a href="javascript:void(0)" class="default cur">Default</a>
           <a href="javascript:void(0)" class="price" @click.prevent.stop="sortPrice()">Price
-            <svg class="icon icon-arrow-short">
+            <svg class="icon icon-arrow-short" :class="{'arrow-up': !sortFlag}">
               <use xlink:href="#icon-arrow-short"></use>
             </svg>
           </a>
@@ -58,15 +58,15 @@
     </div>
     <div class="md-overlay" v-show="overlayShow" @click="hideOverlay"></div>
     <Footer/>
-    <Modal :mdShow="mdShow">
+    <Modal :mdShow="mdShow" @closeModal="closeMdShow()">
       <p slot="message">
-        请先登录，否则无法加入购物车中！
+        请先登录，否则无法加入购物车！
       </p>
       <div slot="btnGroup">
-        <a class="btn btn--m">关闭</a>
+        <a class="btn btn--m" @click.prevent.stop="closeMdShow">关闭</a>
       </div>
     </Modal>
-    <Modal :mdShow="mdShowCart">
+    <Modal :mdShow="mdShowCart" @closeModal="closeMdShowCart()">
       <p slot="message">
         <svg class="icon-status-ok">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-status-ok"></use>
@@ -74,8 +74,8 @@
         <span>加入购物车成功！</span>
       </p>
       <div slot="btnGroup">
-        <a class="btn btn--m">继续购物</a>
-        <router-link to="/cart">查看购物车</router-link>
+        <a class="btn btn--m" @click="closeMdShowCart">继续购物</a>
+        <router-link class="btn btn--m" to="/cart">查看购物车</router-link>
       </div>
     </Modal>
   </div>
@@ -124,7 +124,7 @@
         loading: false,   //loading 不显示
         priceLevel: 'all',    //价格等级区间
         noData: false,
-        mdShow:false,     //未登录加入购物车提示框
+        mdShow: false,     //未登录加入购物车提示框
         mdShowCart: false,  //加入购物车成功提示框
       }
     },
@@ -205,6 +205,12 @@
             this.mdShow = true;
           }
         })
+      },
+      closeMdShow(){
+        this.mdShow =false;
+      },
+      closeMdShowCart(){
+        this.mdShowCart=false;
       }
     },
     components: {
@@ -217,5 +223,13 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/css" scoped>
-
+  .btn
+    &:hover
+      background-color #ffe5e6
+      transition all 0.3s ease-out
+  .arrow-up
+    transform rotate(180deg)
+    transition all 0.3s ease-out
+  .icon-arrow-short
+    transition all 0.3s ease-out
 </style>

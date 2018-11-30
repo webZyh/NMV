@@ -3,7 +3,7 @@
     <div class="md-modal modal-msg md-modal-transition" :class="{'md-show': mdShow}">
       <div class="md-modal-inner">
         <div class="md-top">
-          <button class="md-close">Close</button>
+          <button class="md-close" @click="closeModal()">Close</button>
         </div>
         <div class="md-content">
           <div class="confirm-tips">
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <div class="md-overlay" v-if=""></div>
+    <div class="md-overlay" v-if="mdShow"></div>
   </div>
 </template>
 <script>
@@ -25,6 +25,11 @@
     props:{
       mdShow:{
         type: Boolean
+      }
+    },
+    methods:{
+      closeModal(){
+        this.$emit('closeModal');
       }
     }
   }
