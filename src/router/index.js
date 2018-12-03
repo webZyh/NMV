@@ -9,6 +9,10 @@ export default new Router({
     {
       path: '/',
       component: GoodsList
-    }
+    },
+    {
+      path: '/cart',
+      component:  resolve => require(['../views/ShopCart/ShopCart.vue'],resolve)
+    },
   ]
 })

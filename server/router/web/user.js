@@ -3,6 +3,7 @@ const User = require('../../models/users');
 module.exports = function(){
   let router = express.Router();
 
+  //登录
   router.post('/login',(req,res,next)=>{
     let userName = req.body.username;
     let userPwd = req.body.password;
@@ -40,6 +41,7 @@ module.exports = function(){
       }
     })
   });
+  //退出
   router.post('/logout',(req,res, next)=>{
     res.cookie('userId','',{
       path:'/',
@@ -66,6 +68,27 @@ module.exports = function(){
         data:''
       })
     }
+  })
+
+  //购物车列表
+  router.get('/cartList',(req,res)=>{
+    let userId = req.cookies.userId;
+    User.findOne({userId:userId},(err,data)=>{
+      if(err){
+        console.log(err);
+        res.json({
+          code:1,
+          msg:err.message,
+          data:''
+        })
+      }else{
+        res.json({
+          code: 0,
+          msg:'',
+          data: data.cartList
+        })
+      }
+    })
   })
   return router;
 }

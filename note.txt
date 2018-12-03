@@ -104,6 +104,6 @@ vue-infinite-scroll		vue滚动加载插件
 -----------------------------------------------------
 MongoDB 删除某个数组中的某条数据
 User.update({userId:userId},{$pull:{'cartList':{'productId':productId}}})
-userId：查询条件，要找的用户
-cartList:要操作的数组
-productId: 在cartList数组中删除productId这条数据
+      userId：查询条件，要找的用户
+      cartList:要操作的数组
+      productId: 在cartList数组中删除productId这条数据

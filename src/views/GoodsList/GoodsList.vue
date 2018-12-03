@@ -2,7 +2,7 @@
   <div class="">
     <Header/>
     <Nav>
-      <span slot="goods">Goods</span>
+      <span slot="msg">Goods</span>
     </Nav>
     <div class="accessory-result-page accessory-page">
       <div class="container">
@@ -222,7 +222,7 @@
   }
 </script>
 
-<style lang="stylus" rel="stylesheet/css" scoped>
+<style lang="stylus" rel="stylesheet/stylus" scoped>
   .btn
     &:hover
       background-color #ffe5e6

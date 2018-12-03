@@ -26,7 +26,7 @@ for (let i = 0; i < 10000; i++) {
 //普通数据，请求的数据req.body中
 server.use(bodyParser.urlencoded({
   extended: false,
-  limit: 1000     //限制数据大小
+  limit: 1000,     //限制数据大小
 }));
 server.use(bodyParser.json());
 //上传文件数据；请求数据在req.files中；post数据时需要加上：enctype="multipart/form-data"
@@ -45,7 +45,7 @@ server.use((req,res,next)=>{
     next();
   }else{
     //console.log(req.path);
-    console.log(req.originalUrl);
+    //console.log(req.originalUrl);
     if(req.originalUrl == '/user/login' || req.originalUrl == '/user/logout' || req.path == '/goods/list'){
       next();
     }else{
