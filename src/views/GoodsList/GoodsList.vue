@@ -144,7 +144,7 @@
         }).then((res) => {
           this.loading = false;
           let result = res.data;
-          console.log(result);
+          //console.log(result);
           if (result.code === 0) {
             if (flag) { //flag为true时，表示下拉加载
               this.goodsList = this.goodsList.concat(result.data.list);
@@ -159,7 +159,7 @@
               this.busy = false;
               this.goodsList = result.data.list;
             }
-            console.log(this.goodsList)
+            //console.log(this.goodsList)
           }
 
         })

@@ -69,7 +69,7 @@
                     </a>
                   </div>
                   <div class="cart-item-pic">
-                    <img :src=`/static/${item.productImage}`>
+                    <img :src="'/static/img/'+item.productImage">
                   </div>
                   <div class="cart-item-title">
                     <div class="item-name">{{item.productName}}</div>
@@ -79,10 +79,10 @@
                   <div class="item-price">{{item.salePrice}}</div>
                 </div>
                 <div class="cart-tab-3">
-                  <CartControl :cartList="cartList"></CartControl>
+                  <CartControl :goods="item"></CartControl>
                 </div>
                 <div class="cart-tab-4">
-                  <div class="item-price-total">{{cartList.salePrice * cartList.productNum}}</div>
+                  <div class="item-price-total">{{item.salePrice*item.productNum}}</div>
                 </div>
                 <div class="cart-tab-5">
                   <div class="cart-item-opration">
@@ -145,6 +145,7 @@
       initCartList(){
         axios.get('/user/cartList').then((response)=>{
           let res = response.data;
+          console.log(res);
           if(res.code == 0){
             this.cartList = res.data;
             console.log(this.cartList);

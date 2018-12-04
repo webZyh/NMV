@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Goods = require('../../models/goods');
 const Users = require('../../models/users');
 //  connect() 返回一个状态待定（pending）的连接
-mongoose.connect('mongodb://localhost:27017/mall_data');  //'mongodb://root:123456@localhost:27017/mall_data'
+mongoose.connect('mongodb://localhost:27017/mall_data',{ useNewUrlParser: true });  //'mongodb://root:123456@localhost:27017/mall_data'
 
 let db = mongoose.connection;   //连接mongoDB数据库
 //检测连接状态

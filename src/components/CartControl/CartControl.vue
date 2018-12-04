@@ -1,16 +1,19 @@
 <template>
   <div class="cart-control">
-    <div class="reduce cart-btn">-</div>
-    <div class="count">{{cartList.productNum}}</div>
-    <div class="add cart-btn">+</div>
+    <div class="reduce cart-btn" @click="decreaseCount">-</div>
+    <div class="count">{{goods.productNum}}</div>
+    <div class="add cart-btn" @click="addCount">+</div>
   </div>
 </template>
 <script>
   export default {
     props:{
-      cartList:{
+      goods:{
         type:Array
       }
+    },
+    methods:{
+      decreaseCount(){}
     }
   }
 </script>

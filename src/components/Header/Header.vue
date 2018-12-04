@@ -121,7 +121,7 @@
             this.errorTip = false;
             this.loginShow = false;
             this.user = result.data.userName;
-          }else{
+          }else if(result.code == 1){
             this.errorTip = true;
           }
         })

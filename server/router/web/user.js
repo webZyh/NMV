@@ -14,6 +14,8 @@ module.exports = function(){
     console.log(params);
     User.findOne(params,(err,data)=>{
       if (err){
+        console.log(1);
+        console.log(err);
         res.json({
           code:1,
           msg:err.message
