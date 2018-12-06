@@ -1,19 +1,26 @@
 <template>
   <div class="cart-control">
-    <div class="reduce cart-btn" @click="decreaseCount">-</div>
+    <div class="reduce cart-btn" @click="updateCount(false)">-</div>
     <div class="count">{{goods.productNum}}</div>
-    <div class="add cart-btn" @click="addCount">+</div>
+    <div class="add cart-btn" @click="updateCount(true)">+</div>
   </div>
 </template>
 <script>
   export default {
     props:{
       goods:{
-        type:Array
+        type: Object
       }
     },
     methods:{
-      decreaseCount(){}
+      updateCount(isAdd){
+        const {goods} = this;
+        if(isAdd){   //增加
+
+        }else{  //减少
+
+        }
+      }
     }
   }
 </script>

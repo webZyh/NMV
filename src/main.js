@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import store from './store'
+
 import infiniteScroll from 'vue-infinite-scroll'
 Vue.use(infiniteScroll);
 
@@ -23,8 +25,9 @@ new Vue({
   router,
   /*components: { App },
   template: '<App/>'*/
-  render: h=>h(App)
+  render: h=>h(App),
   /*render:function(h){
   	return h(App);
   }*/
+  store
 }).$mount("#app");

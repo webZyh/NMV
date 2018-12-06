@@ -91,6 +91,29 @@ module.exports = function(){
         })
       }
     })
+  });
+  //删除购物车中的商品
+  router.post('/delCartShop',(req,res,next)=>{
+    let productId = req.body.productId;
+    let userId = req.cookies.userId;
+
+    User.update({userId:userId},{$pull:{'cartList':{'productId': productId}}},(err,data)=>{
+      if(err){
+        res.json({
+          code:1,
+          msg: err.message,
+          data:''
+        })
+      }else{
+        if(data){
+          res.json({
+            code: 0,
+            msg:'success'
+          })
+        }
+      }
+    })
   })
+
   return router;
 }

@@ -82,11 +82,11 @@
                   <CartControl :goods="item"></CartControl>
                 </div>
                 <div class="cart-tab-4">
-                  <div class="item-price-total">{{item.salePrice*item.productNum}}</div>
+                  <div class="item-price-total">{{item.salePrice * item.productNum}}</div>
                 </div>
                 <div class="cart-tab-5">
                   <div class="cart-item-opration">
-                    <a href="javascript:;" class="item-edit-btn">
+                    <a href="javascript:;" class="item-edit-btn" @click="showDeleteModal(item.productId)">
                       <svg class="icon icon-del">
                         <use xlink:href="#icon-del"></use>
                       </svg>
@@ -121,6 +121,13 @@
         </div>
       </div>
     </div>
+    <Modal :mdShow="showDeleteModal" @closeModal="closeDeleteModal()">
+      <p slot="message">确定删除该件商品吗？</p>
+      <div slot="btnGroup">
+        <a class="btn btn--m" @click="this.showDeleteModal = false">关闭</a>
+        <a class="btn btn--m" @click="delCartShop">确定</a>
+      </div>
+    </Modal>
     <Footer></Footer>
   </div>
 </template>
@@ -132,28 +139,46 @@
   import CartControl from '../../components/CartControl/CartControl.vue'
 
   import axios from 'axios'
+
   export default {
-    data(){
+    data() {
       return {
-        cartList:[]
+        cartList: [],
+        showDeleteModal: false,
+        productId:'',
       }
     },
-    mounted(){
+    mounted() {
       this.initCartList();
     },
-    methods:{
-      initCartList(){
-        axios.get('/user/cartList').then((response)=>{
+    methods: {
+      initCartList() {
+        axios.get('/user/cartList').then((response) => {
           let res = response.data;
           console.log(res);
-          if(res.code == 0){
+          if (res.code == 0) {
             this.cartList = res.data;
             console.log(this.cartList);
           }
         });
+      },
+      showDeleteModal(productId){
+        this,showDeleteModal = true;
+        this.productId = productId;
+      },
+      closeDeleteModal(){
+        this.showDeleteModal = false;
+      },
+      //删除购物车商品
+      delCartShop(){
+        let {product} = this
+        axios.post('/user/delCartShop',{productId:product}).then((response)=>{
+          let res = response.data;
+          this.initCartList();
+        })
       }
     },
-    components:{
+    components: {
       Header,
       Footer,
       Nav,
