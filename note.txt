@@ -107,3 +107,126 @@ User.update({userId:userId},{$pull:{'cartList':{'productId':productId}}})
       userId：查询条件，要找的用户
       cartList:要操作的数组
       productId: 在cartList数组中删除productId这条数据
+
+-----------------------------------------------------
+什么是Mongoose?
+    Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对MongoDB操作的一个对象模型库，封装了MongoDB对文档的的一些增删改查等常用方法，让NodeJS操作Mongodb数据库变得更加灵活简单。
+
+使用步骤：
+//1、引入mongoose
+const mongoose = require('mongoose');
+
+//2、new 创建Schema模型
+const Schema = mongoose.Schema;
+//3、定义模型,对应数据库表中数据的名称和类型
+let productSchema = new Schema({
+  "productId":{type:String},
+  "productName":String,
+  "salePrice":Number,
+  "productImage":String,
+  "productNum":Number,
+  "checked":Number
+});
+//4、创建Model并导出
+module.exports = mongoose.model("Good",productSchema,'goods');  //输出模型
+
+//5、由导出的modal对数据库进行增删改查的操作。
+
+Mongoose的增删改查
+增：
+userModel.create({
+  name: 'zhangsan',
+  age:'10'
+},(err,doc)=>{
+  ...
+})
+
+删：
+//删除用户名为“tiny”的文档记录
+var conditions = {name: 'tiny'};  //条件
+userMode.remove(conditions, (error) => {
+    if (error) {
+        console.error(error);
+    } else {
+        console.error("用户删除成功")
+    }
+});
+
+更新数据
+
+
+//更新用户名
+var conditions = {name: request.body.name};
+var updates = {$set: {name: "tiny"}};//将用户名更新为“tiny”
+userMode.update(conditions, updates, function (error) {
+    if (error) {
+        console.error(error);
+    } else {
+        console.error("更新用户名成功")
+    }
+});
+
+查询数据
+基本查询 ：find      find基本查询： obj.find(查询条件,callback);这个查询出所有满足条件的结果值。
+
+                      属性过滤 find(Conditions,field,callback);   //field过滤条件
+
+findOne:
+        与find相同，但只返回单个文档，也就说当查询到即一个符合条件的数据时，将停止继续查询，并返回查询结果。findOne方法，只返回第一个符合条件的文档数据。
+
+findById
+    与findOne相同，但它只接收文档的_id作为参数，返回单个文档。
+    单条数据 findById(_id, callback);
+
+条件查询：
+通过操作符的使用，我们就可对数据进行更细致性的查询，一起来看一下吧。
+"$lt"(小于)，"$lte"(小于等于),"$gt"(大于)，"$gte"(大于等于)，"$ne"(不等于)，"$in"(可单值和多个值的匹配)，"$or"(查询多个键值的任意给定值)，"$exists"(表示是否存在的意思)"$all"。
+
+  //查询年龄小于18的所有记录
+  userMode.find({"age": {"$lt": 18}}, function (error, doc) {
+      if (error) {
+          console.error(error);
+      } else {
+          console.error("查询结果：", doc)
+      }
+  });
+  //查询年龄小于等于18的所有记录
+  userMode.find({"age": {"$lte": 18}}, function (error, doc) {
+      if (error) {
+          console.error(error);
+      } else {
+          console.error("查询结果：", doc)
+      }
+  });
+  //查询年龄不等于18的所有文档记录
+  userMode.find({"age": {"$ne": 18}}, function (error, doc) {
+      if (error) {
+          console.error(error);
+      } else {
+          console.error("年龄不等于18的查询结果：", doc)
+      }
+  });
+  //查询年龄大于18的所有文档记录
+  userMode.find({"age": {"$gt": 18}}, function (error, doc) {
+      if (error) {
+          console.error(error);
+      } else {
+          console.error("年龄大于18的查询结果：", doc)
+      }
+  });
+  //查询年龄大于等于18的所有文档记录
+  userMode.find({"age": {"$gte": 18}}, function (error, doc) {
+      if (error) {
+          console.error(error);
+      } else {
+          console.error("年龄大于等于18的查询结果：", doc)
+      }
+  });
+  //查询年龄大于等于18小于等于60所有文档记录
+  userMode.find({"age": {"$gte": 18, "$lte": 60}}, function (error, doc) {
+      if (error) {
+          console.error(error);
+      } else {
+          console.error("年龄大于等于18小于等于60查询结果：", doc)
+      }
+  });

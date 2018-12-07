@@ -97,7 +97,7 @@ module.exports = function(){
     let productId = req.body.productId;
     let userId = req.cookies.userId;
 
-    User.update({userId:userId},{$pull:{'cartList':{'productId': productId}}},(err,data)=>{
+    User.update({userId:userId},{$pull:{cartList:{productId: productId}}},(err,data)=>{
       if(err){
         res.json({
           code:1,

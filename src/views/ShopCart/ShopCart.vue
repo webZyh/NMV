@@ -121,10 +121,10 @@
         </div>
       </div>
     </div>
-    <Modal :mdShow="showDeleteModal" @closeModal="closeDeleteModal()">
+    <Modal :mdShow="deleteModalShow" @closeModal="closeDeleteModal()">
       <p slot="message">确定删除该件商品吗？</p>
       <div slot="btnGroup">
-        <a class="btn btn--m" @click="this.showDeleteModal = false">关闭</a>
+        <a class="btn btn--m" @click="closeDeleteModal()">关闭</a>
         <a class="btn btn--m" @click="delCartShop">确定</a>
       </div>
     </Modal>
@@ -144,7 +144,7 @@
     data() {
       return {
         cartList: [],
-        showDeleteModal: false,
+        deleteModalShow: false,
         productId:'',
       }
     },
@@ -155,26 +155,31 @@
       initCartList() {
         axios.get('/user/cartList').then((response) => {
           let res = response.data;
-          console.log(res);
+          //console.log(res);
           if (res.code == 0) {
             this.cartList = res.data;
-            console.log(this.cartList);
+            //console.log(this.cartList);
           }
         });
       },
       showDeleteModal(productId){
-        this,showDeleteModal = true;
+        this.deleteModalShow = true;
         this.productId = productId;
       },
       closeDeleteModal(){
-        this.showDeleteModal = false;
+        this.deleteModalShow = false;
       },
       //删除购物车商品
       delCartShop(){
         let {product} = this
         axios.post('/user/delCartShop',{productId:product}).then((response)=>{
           let res = response.data;
-          this.initCartList();
+          console.log(res);
+          if(res.code == 0){
+            this.initCartList();
+            this.deleteModalShow = false;
+          }
+
         })
       }
     },

@@ -49,6 +49,7 @@ server.use((req,res,next)=>{
     if(req.originalUrl == '/user/login' || req.originalUrl == '/user/logout' || req.path == '/goods/list'){
       next();
     }else{
+      //res.redirect('/');
       res.json({
         code:1,
         msg:'当前未登录',

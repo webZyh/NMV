@@ -15,11 +15,8 @@
     methods:{
       updateCount(isAdd){
         const {goods} = this;
-        if(isAdd){   //增加
 
-        }else{  //减少
-
-        }
+        this.$store.dispatch('goodsCount',{isAdd,goods});
       }
     }
   }
