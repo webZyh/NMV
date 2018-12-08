@@ -62,7 +62,7 @@
               <li v-for="(item,index) in cartList">
                 <div class="cart-tab-1">
                   <div class="cart-item-check">
-                    <a href="javascipt:;" class="checkbox-btn item-check-btn">
+                    <a href="javascipt:;" class="checkbox-btn item-check-btn" :class="{'check': item.checked =='1'}" @click="editChecked(item)">
                       <svg class="icon icon-ok">
                         <use xlink:href="#icon-ok"></use>
                       </svg>
@@ -101,8 +101,8 @@
           <div class="cart-foot-inner">
             <div class="cart-foot-l">
               <div class="item-all-check">
-                <a href="javascipt:;">
-                  <span class="checkbox-btn item-check-btn">
+                <a href="javascipt:;" @click="toggleCheckAll">
+                  <span class="checkbox-btn item-check-btn" :class="{'check': checkAllFlag }">
                       <svg class="icon icon-ok"><use xlink:href="#icon-ok"/></svg>
                   </span>
                   <span>Select all</span>
@@ -111,7 +111,7 @@
             </div>
             <div class="cart-foot-r">
               <div class="item-total">
-                Item total: <span class="total-price">500</span>
+                Item total: <span class="total-price">{{totlePrice | currency("￥")}}</span>
               </div>
               <div class="btn-wrap">
                 <a class="btn btn--red">Checkout</a>
@@ -139,20 +139,56 @@
   import CartControl from '../../components/CartControl/CartControl.vue'
 
   import axios from 'axios'
+  import {mapState} from 'vuex'
+
+  //局部过滤器
+  import {currency} from '../../util/currency';
 
   export default {
     data() {
       return {
-        cartList: [],
+        /*cartList: [],*/
         deleteModalShow: false,
         productId:'',
       }
     },
     mounted() {
-      this.initCartList();
+      //this.initCartList();
+      this.$store.dispatch("getCartList");  //通知actions调用后台
     },
+    computed:{
+      ...mapState(['cartList']),    //获取state中的数据
+
+      totlePrice(){   //购物车商品总金额
+        let totleMoney = 0;
+        this.cartList.forEach((item)=>{
+          if(item.checked == '1'){
+            totleMoney += item.productNum * item.salePrice
+          }
+        })
+        return totleMoney;
+      },
+
+      //全选
+      checkAllFlag(){
+        return this.checkedCount == this.cartList.length;
+      },
+      //购物车中选中的商品数量
+      checkedCount(){
+        let i = 0;
+        this.cartList.forEach((item)=>{
+          if(item.checked == 1){
+            i++
+          }
+        })
+        return i;
+      }
+    },
+    /*filters:{
+      currency: currency
+    },*/
     methods: {
-      initCartList() {
+      /*initCartList() {
         axios.get('/user/cartList').then((response) => {
           let res = response.data;
           //console.log(res);
@@ -161,7 +197,7 @@
             //console.log(this.cartList);
           }
         });
-      },
+      },*/
       showDeleteModal(productId){
         this.deleteModalShow = true;
         this.productId = productId;
@@ -171,16 +207,31 @@
       },
       //删除购物车商品
       delCartShop(){
-        let {product} = this
-        axios.post('/user/delCartShop',{productId:product}).then((response)=>{
+        let {productId} = this;
+        axios.post('/user/delCartShop',{productId:productId}).then((response)=>{
           let res = response.data;
           console.log(res);
           if(res.code == 0){
-            this.initCartList();
+            this.$store.dispatch("getCartList");
             this.deleteModalShow = false;
           }
 
         })
+      },
+      //编辑购物车选中切换
+      editChecked(item){
+        item.checked = item.checked==1?0:1; //此处更新item.checked的状态
+        axios.post('/user/updateChecked',{'productId':item.productId,'checked':item.checked}).then((response)=>{
+
+          let res = response.data;
+          if(res.code == 0){
+            //this.$store.dispatch("getCartList");  //此处需优化，每日修改购物车都需要重新调一次购物车初始化的接口？
+          }
+        })
+      },
+      //点击全选/全不选
+      toggleCheckAll(){
+
       }
     },
     components: {

@@ -12,6 +12,10 @@ Vue.use(infiniteScroll);
 //import './mock/mockServer'    //加载mockServer即可
 Vue.config.productionTip = false
 
+//全局过滤器
+import {currency} from "./util/currency";
+
+Vue.filter("currency",currency);
 
 //veu-lazyload
 import VueLazyload from 'vue-lazyload'

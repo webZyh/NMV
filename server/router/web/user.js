@@ -97,7 +97,7 @@ module.exports = function(){
     let productId = req.body.productId;
     let userId = req.cookies.userId;
 
-    User.update({userId:userId},{$pull:{cartList:{productId: productId}}},(err,data)=>{
+    User.updateOne({userId:userId},{$pull:{cartList:{productId: productId}}},(err,data)=>{
       if(err){
         res.json({
           code:1,
@@ -108,12 +108,62 @@ module.exports = function(){
         if(data){
           res.json({
             code: 0,
-            msg:'success'
+            msg:'operate success'
           })
         }
       }
     })
   })
 
+  //修改商品数量
+  router.post('/editCartShopCount',(req,res,next)=>{
+    let userId = req.cookies.userId;
+    let productId = req.body.productId;
+    let productNum = req.body.productNum;
+
+    User.updateOne({'userId':userId , 'cartList.productId':productId},{
+      'cartList.$.productNum':productNum,
+    },(err,doc)=>{
+      if(err){
+        res.json({
+          code: 1,
+          msg:err.message,
+          data:''
+        })
+      }else{
+        if(doc){
+          res.json({
+            code:0,
+            msg:'update success'
+          })
+        }
+      }
+    })
+  })
+  //修改商品是否选中属性
+  router.post('/updateChecked',(req,res,next)=>{
+    let userId = req.cookies.userId;
+    let productId = req.body.productId;
+    let checked = req.body.checked;
+
+    User.updateOne({'userId':userId , 'cartList.productId':productId},{
+      'cartList.$.checked':checked,
+    },(err,doc)=>{
+      if(err){
+        res.json({
+          code: 1,
+          msg:err.message,
+          data:''
+        })
+      }else{
+        if(doc){
+          res.json({
+            code:0,
+            msg:'update success'
+          })
+        }
+      }
+    })
+  })
   return router;
 }

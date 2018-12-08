@@ -108,6 +108,11 @@ User.update({userId:userId},{$pull:{'cartList':{'productId':productId}}})
       cartList:要操作的数组
       productId: 在cartList数组中删除productId这条数据
 
+更新某个用户的某个数组中的某项值
+User.update({"userId":userId,"cartList.productId":productId},{"cartList.$.productNum":productNum});
+{"userId":userId,"cartList.productId":productId} 查找条件
+{"cartList.$.productNum":productNum}             改变的值
+$表示占位符，表示productId这条数据
 -----------------------------------------------------
 什么是Mongoose?
     Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对MongoDB操作的一个对象模型库，封装了MongoDB对文档的的一些增删改查等常用方法，让NodeJS操作Mongodb数据库变得更加灵活简单。

@@ -1,8 +1,19 @@
 1、后台登录接口，能接受到前台传来的东西，但是findOne()后没有任何数据
 错误：后台传输的字段与数据库中的字段不一致
 
+2、(node:5384) DeprecationWarning: collection.update is deprecated. Use updateOne,
+  updateMany, or bulkWrite instead.
+  mongoose update方法将被弃用
+
+3、数据库显示操作成功，但是数据没有操作成功
+原因：检查传参是否正确
+
+
+
+
 
 ----------------------------------------------------
+
 1、访问购物车拦截
 2、登录输入错误的用户名密码，后台不发送错误
 3、购物车控制组件操作商品数量，使用vuex管理

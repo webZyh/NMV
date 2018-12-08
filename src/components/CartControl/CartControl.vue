@@ -6,6 +6,8 @@
   </div>
 </template>
 <script>
+
+  import axios from 'axios'
   export default {
     props:{
       goods:{
@@ -15,8 +17,27 @@
     methods:{
       updateCount(isAdd){
         const {goods} = this;
+        //this.$store.dispatch('goodsCount',{isAdd,goods});   暂时不用vuex
+        if(isAdd){    //增加
+          goods.productNum++
+        }else{      //减少
+          if(goods.productNum>0){
+            goods.productNum--
+            if(goods.productNum=1){
+              return false;
+            }
+          }
+        }
 
-        this.$store.dispatch('goodsCount',{isAdd,goods});
+        let productId = goods.productId;
+        let productNum = goods.productNum;
+        axios.post('/user/editCartShopCount',{'productId':productId,'productNum':productNum}).then((response)=>{
+          let res = response.data;
+          if(res.code == 0){
+
+          }
+        })
+
       }
     }
   }
