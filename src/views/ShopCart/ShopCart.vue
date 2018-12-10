@@ -111,7 +111,7 @@
             </div>
             <div class="cart-foot-r">
               <div class="item-total">
-                Item total: <span class="total-price">{{totlePrice | currency("￥")}}</span>
+                Item total: <span class="total-price">{{totalPrice | currency("￥")}}</span>
               </div>
               <div class="btn-wrap">
                 <a class="btn btn--red">Checkout</a>
@@ -159,7 +159,8 @@
     computed:{
       ...mapState(['cartList']),    //获取state中的数据
 
-      totlePrice(){   //购物车商品总金额
+      //购物车商品总金额
+      totalPrice(){
         let totleMoney = 0;
         this.cartList.forEach((item)=>{
           if(item.checked == '1'){
@@ -170,8 +171,17 @@
       },
 
       //全选
-      checkAllFlag(){
-        return this.checkedCount == this.cartList.length;
+      checkAllFlag:{
+        get(){
+          if(this.cartList.length == 0){    //购物车没有商品时，全选不选中
+            return 0
+          }else{
+            return this.checkedCount == this.cartList.length;
+          }
+        },
+        /*set(val){
+          // 当checkAllFlag需要赋值时需要写set方法
+        }*/
       },
       //购物车中选中的商品数量
       checkedCount(){
@@ -185,7 +195,8 @@
       }
     },
     /*filters:{
-      currency: currency
+      //局部过滤器
+      currency: currency,
     },*/
     methods: {
       /*initCartList() {
@@ -231,7 +242,19 @@
       },
       //点击全选/全不选
       toggleCheckAll(){
-
+        //this.checkAllFlag = !this.checkAllFlag;
+        let flag = !this.checkAllFlag;
+        this.cartList.forEach((item)=>{
+          item.checked = flag;   //flag?'1':'0'
+        })
+        axios.post("/user/updateCheckedAll",{
+          checkAll:this.checkAllFlag
+        }).then((response)=>{
+          let res = response.data;
+          if(res.code == 0){
+            console.log('update success');
+          }
+        })
       }
     },
     components: {

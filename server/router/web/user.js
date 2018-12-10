@@ -165,5 +165,47 @@ module.exports = function(){
       }
     })
   })
+
+  //点击全选/全不选
+  router.post('/updateCheckedAll',(req,res)=>{
+    let userId = req.cookies.userId;
+    let checkAll = req.body.checkAll;
+    User.findOne({userId:userId},(err,userDoc)=>{
+      if(err){
+        res.json({
+          code:1,
+          msg:err.message,
+          data:''
+        })
+      }else{
+        if(userDoc){
+          userDoc.cartList.forEach((item)=>{
+            /*if(checkAll == true){
+              item.checked = 1;
+            }else if(checkAll == false){
+              item.checked = 0;
+            }*/
+            //console.log(checkAll);
+            item.checked = checkAll;      //? 赋值是true和false，到数据库中怎么变成1和0的
+          })
+          userDoc.save((err,doc)=>{
+            if(err){
+              res.json({
+                code:1,
+                msg:err.message,
+                data:''
+              })
+            }else{
+              res.json({
+                code:0,
+                data:doc,
+                msg:'operate success'
+              })
+            }
+          })
+        }
+      }
+    })
+  })
   return router;
 }
