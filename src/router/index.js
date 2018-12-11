@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import GoodsList from '../views/GoodsList/GoodsList'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -14,5 +14,9 @@ export default new Router({
       path: '/cart',
       component:  resolve => require(['../views/ShopCart/ShopCart.vue'],resolve)
     },
+    {
+      path: '/address',
+      component:  resolve => require(['../views/Address/Address.vue'],resolve)
+    }
   ]
 })
