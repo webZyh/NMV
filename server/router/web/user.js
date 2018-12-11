@@ -207,5 +207,27 @@ module.exports = function(){
       }
     })
   })
+
+  //地址列表
+  router.get('/addressList',(req,res)=>{
+    let userId = req.cookies.userId;
+
+    User.findOne({userId:userId},(err, doc)=>{
+      if (err){
+        res.json({
+          code:1,
+          msg:err.message,
+          data:''
+        })
+      }else{
+        if (doc){
+          res.json({
+            code : 0,
+            data: doc.addressList
+          })
+        }
+      }
+    })
+  })
   return router;
 }

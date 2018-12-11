@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
       "productNum": Number,
       "checked": Number,
     }
-  ]
+  ],
+  "addressList":Array,
 });
 
 const model = mongoose.model('User',userSchema,'users');    //创建一个model
