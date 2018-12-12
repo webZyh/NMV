@@ -15,4 +15,4 @@ let productSchema = new Schema({  //定义模型,对应数据库表中数据的�
 //3、创建Model并导出
 module.exports = mongoose.model("Good",productSchema,'goods');  //输出模型
 
-//由导出的modal对数据库进行增删改查的操作。
+//由导出的model对数据库进行增删改查的操作。
