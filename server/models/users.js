@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
-  "userId":String,
-  "userName":String,
-  "userPwd":String,
-  "orderList":Array,
-  "cartList":[
+  "userId": String,
+  "userName": String,
+  "userPwd": String,
+  "orderList": Array,
+  "cartList": [
     {
       "productId": String,
       "productName": String,
@@ -14,9 +14,18 @@ const userSchema = new mongoose.Schema({
       "checked": Number,
     }
   ],
-  "addressList":Array,
+  "addressList": [
+    {
+      "addressId": String,
+      "userName": String,
+      "streetName": String,
+      "postCode": Number,
+      "tel": Number,
+      "isDefault": Boolean
+    }
+  ],
 });
 
-const model = mongoose.model('User',userSchema,'users');    //创建一个model
+const model = mongoose.model('User', userSchema, 'users');    //创建一个model
 
-module.exports =model;
+module.exports = model;

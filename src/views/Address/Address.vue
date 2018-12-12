@@ -80,16 +80,16 @@
                     <dd class="tel">{{item.tel}}</dd>
                   </dl>
                   <div class="addr-opration addr-del">
-                    <a href="javascript:;" class="addr-del-btn">
+                    <a href="javascript:;" class="addr-del-btn" @click="showDelAddressModal(item.addressId)">
                       <svg class="icon icon-del">
                         <use xlink:href="#icon-del"></use>
                       </svg>
                     </a>
                   </div>
                   <div class="addr-opration addr-set-default">
-                    <a href="javascript:;" class="addr-set-default-btn"><i>Set default</i></a>
+                    <a href="javascript:;" class="addr-set-default-btn" v-show="item.isDefault==false" @click="setDefaultAddress(item.addressId)"><i>Set default</i></a>
                   </div>
-                  <div class="addr-opration addr-default">Default address</div>
+                  <div class="addr-opration addr-default" v-show="item.isDefault==true">Default address</div>
                 </li>
                  <li class="addr-new">
                    <div class="add-new-inner">
@@ -142,6 +142,13 @@
       </div>
     </div>
     <Footer></Footer>
+    <Modal :mdShow="delAddressModalShow" @closeModal="closeDelAddressModal">
+      <p slot="message">您确定删除该地址吗？</p>
+      <div slot="btnGroup">
+        <a class="btn btn--m" @click="delAddress()">确定</a>
+        <a class="btn btn--m" @click="delAddressModalShow=false">关闭</a>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -149,6 +156,7 @@
   import Header from '../../components/Header/Header.vue'
   import Footer from '../../components/Footer/Footer.vue'
   import Nav from '../../components/Nav/Nav'
+  import Modal from '../../components/Modal/Modal.vue'
 
   import axios from 'axios'
 
@@ -157,13 +165,29 @@
       return {
         addressList: [],
         limit: 3,
-        checkIndex:0,
+        checkIndex: 0,
+        delAddressModalShow: false,
+        addressId :''
       }
     },
     computed: {
       addressListFilter() {
         return this.addressList.slice(0, this.limit)
-      }
+      },
+      //第一次进入时，默认选中默认地址
+      /*checkIndex:{
+        get(){
+          let {addressList} = this;
+          for(let i =0;i<addressList.length; i++){
+            if(addressList[i].isDefault == true){
+              return i;
+            }
+          }
+        },
+        set(val){
+
+        }
+      }*/
     },
     mounted() {
       this.initAddressList();
@@ -183,12 +207,43 @@
         } else {
           this.limit = 3;
         }
+      },
+      //设置默认地址
+      setDefaultAddress(addressId){
+        axios.post('/user/defaultAddress',{'addressId':addressId}).then((result)=>{
+          let res = result.data;
+          if(res.code == 0){
+            this.initAddressList();
+            console.log('setDefaultAddress success');
+          }
+        })
+      },
+      //显示模态框
+      showDelAddressModal(addressId){
+        this.addressId = addressId;
+        this.delAddressModalShow = true;
+      },
+      //关闭模态框
+      closeDelAddressModal(){
+        this.delAddressModalShow = false;
+      },
+      //删除地址
+      delAddress(){
+        let {addressId} = this;
+        axios.post('/user/delAddress',{'addressId':addressId}).then((result)=>{
+          let res = result.data;
+          if(res.code == 0){
+            this.delAddressModalShow = false;
+            this.initAddressList();
+          }
+        })
       }
     },
     components: {
       Header,
       Footer,
       Nav,
+      Modal
     }
   }
 </script>
