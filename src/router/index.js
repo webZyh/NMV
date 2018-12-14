@@ -17,6 +17,10 @@ export default new Router({
     {
       path: '/address',
       component:  resolve => require(['../views/Address/Address.vue'],resolve)
+    },
+    {
+      path:'/orderConfirm',
+      component: resolve => require(['../views/OrderConfirm/OrderConfirm'],resolve)
     }
   ]
 })

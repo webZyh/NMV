@@ -136,7 +136,7 @@
             </div>
           </div>
           <div class="next-btn-wrap">
-            <a class="btn btn--m btn--red">Next</a>
+            <router-link class="btn btn--m btn--red" :to="{path:'/orderConfirm'}">Next</router-link>
           </div>
         </div>
       </div>
