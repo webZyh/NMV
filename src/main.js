@@ -14,7 +14,6 @@ Vue.config.productionTip = false
 
 //全局过滤器
 import {currency} from "./util/currency";
-
 Vue.filter("currency",currency);
 
 //veu-lazyload

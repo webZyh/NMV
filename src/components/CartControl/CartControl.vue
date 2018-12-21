@@ -18,13 +18,15 @@
     methods: {
       updateCount(isAdd) {
         let {goods} = this;
+        console.log(goods);
         //this.$store.dispatch('goodsCount',{isAdd,goods});   暂时不用vuex
         if (isAdd == true) {    //增加
           goods.productNum++;
         } else if (isAdd == false) {      //减少
-          goods.productNum--
+          console.log(goods.productNum);
+          goods.productNum--;
           if (goods.productNum = 1) {
-            return false;
+            return;
           }
         }
 

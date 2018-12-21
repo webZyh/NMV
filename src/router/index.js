@@ -21,6 +21,10 @@ export default new Router({
     {
       path:'/orderConfirm',
       component: resolve => require(['../views/OrderConfirm/OrderConfirm'],resolve)
+    },
+    {
+      path:'/orderSuccess',
+      component: resolve => require(['../views/orderSuccess/orderSuccess'],resolve)
     }
   ]
 })

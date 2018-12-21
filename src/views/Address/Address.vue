@@ -73,7 +73,7 @@
           <div class="addr-list-wrap">
             <div class="addr-list">
               <ul>
-                <li v-for="(item,index) in addressListFilter" :class="{'check': checkIndex == index}" @click="checkIndex=index">
+                <li v-for="(item,index) in addressListFilter" :class="{'check': checkIndex == index}" @click="checkIndex=index; selectAddressId=item.addressId">
                   <dl>
                     <dt>{{item.userName}}</dt>
                     <dd class="address">{{item.streetName}}</dd>
@@ -136,7 +136,7 @@
             </div>
           </div>
           <div class="next-btn-wrap">
-            <router-link class="btn btn--m btn--red" :to="{path:'/orderConfirm'}">Next</router-link>
+            <router-link class="btn btn--m btn--red" :to="{path:'/orderConfirm',query:{addressId:selectAddressId}} ">Next</router-link>
           </div>
         </div>
       </div>
@@ -167,7 +167,8 @@
         limit: 3,
         checkIndex: 0,
         delAddressModalShow: false,
-        addressId :''
+        addressId :'',
+        selectAddressId:''    //应该有一个默认值，为默认的地址
       }
     },
     computed: {
