@@ -13,3 +13,14 @@ export default new Vuex.Store({
   actions,
   mutations
 })
+/*
+const store = new Vuex.Store({
+  state:{},
+  getters:{},
+  actions:{},
+  mutations:{}
+})
+
+store导出到main.js中
+*/
+
