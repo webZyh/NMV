@@ -28,8 +28,8 @@
       <div class="navbar-right-container" style="display: flex;">
         <div class="navbar-menu-container">
           <!--<a href="/" class="navbar-link">我的账户</a>-->
-          <span class="navbar-link">{{user}}</span>
-          <a href="javascript:void(0)" class="navbar-link" @click="loginShow=true;" v-if="!user">Login</a>
+          <span class="navbar-link">{{userName}}</span>
+          <a href="javascript:void(0)" class="navbar-link" @click="loginShow=true;" v-if="!userName">Login</a>
           <a href="javascript:void(0)" class="navbar-link" @click="logout()" v-else>Logout</a>
           <div class="navbar-cart-container">
             <span class="navbar-cart-count"></span>
@@ -79,29 +79,37 @@
   import "../../assets/css/base.css"
 
   import axios from 'axios';
+  import {mapState} from 'vuex';
   export default {
     data(){
       return{
         loginShow: false,
         errorTip:false,
-        username:'',
-        password:'',
-        user:'',
+        username:'',    //用户账号
+        password:'',    //密码
+        // userName:'',   //用户名
       }
     },
     mounted(){
-      this.checkLogin();
+      // this.checkLogin();
+      this.$store.dispatch("checkLogin");
+    },
+    computed:{
+      /*userName(){
+        return this.$store.state.userName;
+      }*/
+      ...mapState(['userName'])
     },
     methods:{
-      //检查登录状态
+      /*//检查登录状态
       checkLogin(){
         axios.get("user/checkLogin").then((res)=>{
           let resp = res.data;
           if(resp.code==0){
-            this.user = resp.data;
+            this.userName = resp.data;
           }
         })
-      },
+      },*/
       //登录
       login(){
         let username = this.username;
@@ -120,7 +128,8 @@
           if (result.code == 0){
             this.errorTip = false;
             this.loginShow = false;
-            this.user = result.data.userName;
+            /*this.userName = result.data.userName;*/
+            this.$store.commit('updateUserInfo', result.data.userName);
           }else if(result.code == 1){
             this.errorTip = true;
           }
@@ -129,7 +138,8 @@
       //退出
       logout(){
         axios.post("/user/logout").then((res)=>{
-          this.user='';
+          /*this.userName='';*/
+          this.$store.commit('updateUserInfo','');
         })
       }
     }

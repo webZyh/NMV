@@ -22,5 +22,14 @@ export default {
         //state.cartList.splice(state.cartList.indexOf(goods),1);
       }
     }
+  },
+
+  //登录后获取用户名
+  updateUserInfo(state,userName){
+    state.userName = userName;
+  },
+  //购物车商品数量
+  updateCartCount(state,cartCount){
+    state.cartCount += cartCount;
   }
 }

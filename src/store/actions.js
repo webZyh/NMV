@@ -24,5 +24,16 @@ export default {
     }else{    //减少数量
       commit(DECREMENT_GOODS_COUNT,{goods});
     }
-  }
+  },
+
+  //异步获取用户信息，检查登录状态
+  checkLogin({commit}){
+    axios.get("user/checkLogin").then((res)=>{
+      let resp = res.data;
+      if(resp.code==0){
+        let userName = resp.data;
+        commit('updateUserInfo',userName);
+      }
+    })
+  },
 }
